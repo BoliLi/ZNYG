@@ -1,17 +1,25 @@
 package com.renhe.znyg;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
+
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
 
 import java.util.ArrayList;
 
@@ -27,7 +35,17 @@ public class MainActivity extends Activity {
         initUI();
     }
 
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm.isActive()) {
+            if (this.getCurrentFocus().getWindowToken() != null) {
+                imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
+    }
+
     private void initUI() {
+        final Context currentCtx = this;
         final ViewPager viewPager = (ViewPager) findViewById(R.id.vp_horizontal_ntb);
         viewPager.setAdapter(new PagerAdapter() {
             @Override
@@ -50,7 +68,7 @@ public class MainActivity extends Activity {
             public Object instantiateItem(final ViewGroup container, final int position) {
                 Log.i("LBL", "2position:" + position);
                 View view = null;
-                if(position == 0) {
+                if (position == 0) {
                     view = LayoutInflater.from(
                             getBaseContext()).inflate(R.layout.medicine_list_vp, null, false);
 
@@ -69,6 +87,40 @@ public class MainActivity extends Activity {
                     view = LayoutInflater.from(
                             getBaseContext()).inflate(R.layout.input_vp, null, false);
                     container.addView(view);
+
+                    final EditText editText1 = (EditText) findViewById(R.id.et1);
+                    editText1.setInputType(InputType.TYPE_NULL);
+
+                    editText1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Log.i("LBL", "editText1 onClick");
+                            hideKeyboard();
+                            ArrayList<String> options1Items = new ArrayList<>();
+                            options1Items.add("123");
+                            options1Items.add("456");
+                            options1Items.add("789");
+                            OptionsPickerView pvOptions = new OptionsPickerBuilder(currentCtx, new OnOptionsSelectListener() {
+                                @Override
+                                public void onOptionsSelect(int options1, int option2, int options3 ,View v) {
+                                    editText1.setText("" + options1);
+                                }
+                            })
+                                    .setSubCalSize(30)
+                                    .setTitleSize(30)
+                                    .setContentTextSize(30)
+                                    .build();
+                            pvOptions.setPicker(options1Items);
+                            pvOptions.show();
+                        }
+                    });
+
+                    view.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            hideKeyboard();
+                        }
+                    });
                 }
 
                 return view;

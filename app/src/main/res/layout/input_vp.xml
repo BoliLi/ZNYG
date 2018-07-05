@@ -1,87 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:weightSum="7">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/txt_vp_item_page"
+    <LinearLayout
+        android:id="@+id/layout1"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="10dp"
-        android:layout_weight="1"
+        android:layout_height="80dp"
         android:background="@drawable/bg_round_rect"
-        android:gravity="center"
-        android:text="药品分类：【滚轮选择】"
-        android:textColor="#9b92b3"
-        android:textStyle="bold"/>
+        android:gravity="left|center_horizontal"
+        android:orientation="horizontal"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:paddingBottom="0dp"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_weight="1"
-        android:background="@drawable/bg_round_rect"
-        android:gravity="center"
-        android:text="药品名：【文本输入框】旁边有个按钮按下弹出滚轮选择输入常用药品名"
-        android:textColor="#9b92b3"
-        android:textStyle="bold"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:layout_weight="1"
+            android:text="药品分类："
+            android:paddingLeft="20dp"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_weight="1"
-        android:background="@drawable/bg_round_rect"
-        android:gravity="center"
-        android:text="入库数量：【文本输入框】"
-        android:textColor="#9b92b3"
-        android:textStyle="bold"/>
+        <EditText
+            android:id="@+id/et1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:layout_weight="3"
+            android:hint="请选择"
+            android:inputType="number"
+            android:paddingLeft="2dp"
+            android:textSize="20sp" />
+    </LinearLayout>
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/layout2"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="10dp"
-        android:layout_weight="1"
+        android:layout_height="80dp"
         android:background="@drawable/bg_round_rect"
-        android:gravity="center"
-        android:text="药品过期时间：【时间选择器】"
-        android:textColor="#9b92b3"
-        android:textStyle="bold"/>
-    <TextView
+        android:gravity="left|center_horizontal"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:paddingBottom="0dp"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:layout_weight="1"
+            android:text="药品名："
+            android:paddingLeft="20dp"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/et2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:layout_weight="3"
+            android:hint="请输入"
+            android:inputType="number"
+            android:paddingLeft="2dp"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/layout3"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="10dp"
-        android:layout_weight="1"
+        android:layout_height="80dp"
         android:background="@drawable/bg_round_rect"
-        android:gravity="center"
-        android:text="药品简介：【文本输入框】"
-        android:textColor="#9b92b3"
-        android:textStyle="bold"/>
-    <TextView
+        android:gravity="left|center_horizontal"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:paddingBottom="0dp"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:layout_weight="1"
+            android:text="数量："
+            android:paddingLeft="20dp"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/et3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:layout_weight="3"
+            android:hint="请输入"
+            android:inputType="number"
+            android:paddingLeft="2dp"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/layout4"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="10dp"
-        android:layout_weight="1"
+        android:layout_height="80dp"
         android:background="@drawable/bg_round_rect"
-        android:gravity="center"
-        android:text="药性：【滚轮选择】"
-        android:textColor="#9b92b3"
-        android:textStyle="bold"/>
+        android:gravity="left|center_horizontal"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:paddingBottom="0dp"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:layout_weight="1"
+            android:text="药品简介："
+            android:paddingLeft="20dp"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/et4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:layout_weight="3"
+            android:hint="请输入"
+            android:inputType="number"
+            android:paddingLeft="2dp"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout5"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/bg_round_rect"
+        android:gravity="left|center_horizontal"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:paddingBottom="0dp"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:layout_weight="1"
+            android:text="过期时间："
+            android:paddingLeft="20dp"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/et5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:layout_weight="3"
+            android:hint="请选择"
+            android:inputType="number"
+            android:paddingLeft="2dp"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="10dp"
-        android:layout_weight="1"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="bottom|center_horizontal"
         android:gravity="center"
-        android:text="确认入库按钮" />
+        android:text="确认入库"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
 
 </LinearLayout>
