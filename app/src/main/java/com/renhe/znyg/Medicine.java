@@ -15,6 +15,16 @@ public class Medicine {
     private int expCnt;
     private int totalCnt;
 
+    public Medicine() {
+
+    }
+
+    public Medicine(String category, String name, String description) {
+        this.category = category;
+        this.name = name;
+        this.description = description;
+    }
+
     private class MedCntWithExpDate {
         private int cnt;
         private Date expDate;
@@ -98,7 +108,7 @@ public class Medicine {
         this.totalCnt = totalCnt;
     }
 
-    private int checkExp() {
+    public int checkExp() {
         Date now = new Date();
         int ret = 0;
         for(MedCntWithExpDate mcwed : medCntList) {
@@ -137,6 +147,7 @@ public class Medicine {
                 break;
             }
         }
+        totalCnt -= count;
     }
 
     public void handleExp() {

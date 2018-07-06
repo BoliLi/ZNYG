@@ -30,4 +30,5 @@ dependencies {
     compile 'devlight.io:navigationtabbar:1.2.5'
     compile 'com.contrarywind:Android-PickerView:4.1.4'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+    compile 'com.github.clans:fab:1.6.4'
 }

@@ -1,6 +1,7 @@
 package com.renhe.znyg;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -14,19 +15,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.bigkoo.pickerview.view.TimePickerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import devlight.io.library.ntb.NavigationTabBar;
 
 public class MainActivity extends Activity {
-    private RecycleAdapter recycleAdapter;
+    private MedicineListAdapter medicineListAdapter;
+    private OutputListAdapter outputListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +52,61 @@ public class MainActivity extends Activity {
         }
     }
 
+    private boolean checkInput() {
+        final EditText editText1 = (EditText) findViewById(R.id.et1);
+        if(editText1.getText().toString() == null || editText1.getText().toString().trim() == "") {
+            AlertDialog alertDialog = new AlertDialog.Builder(this)
+                    .setTitle("输入错误")
+                    .setMessage("请输入药品分类。")
+                    .setPositiveButton("确定", null)
+                    .create();
+            alertDialog.show();
+            return false;
+        }
+
+        final EditText editText2 = (EditText) findViewById(R.id.et2);
+        if(editText2.getText().toString() == null || editText2.getText().toString().trim() == "") {
+            AlertDialog alertDialog = new AlertDialog.Builder(this)
+                    .setTitle("输入错误")
+                    .setMessage("请输入药品名称。")
+                    .setPositiveButton("确定", null)
+                    .create();
+            alertDialog.show();
+            return false;
+        }
+
+        final EditText editText3 = (EditText) findViewById(R.id.et3);
+        if(editText3.getText().toString() == null || editText3.getText().toString().trim() == "") {
+            AlertDialog alertDialog = new AlertDialog.Builder(this)
+                    .setTitle("输入错误")
+                    .setMessage("请输入药品数量。")
+                    .setPositiveButton("确定", null)
+                    .create();
+            alertDialog.show();
+            return false;
+        }
+
+        final EditText editText5 = (EditText) findViewById(R.id.et5);
+        if(editText5.getText().toString() == null || editText5.getText().toString().trim() == "") {
+            AlertDialog alertDialog = new AlertDialog.Builder(this)
+                    .setTitle("输入错误")
+                    .setMessage("请输入药品过期时间。")
+                    .setPositiveButton("确定", null)
+                    .create();
+            alertDialog.show();
+            return false;
+        }
+
+        return true;
+    }
+
     private void initUI() {
         final Context currentCtx = this;
         final ViewPager viewPager = (ViewPager) findViewById(R.id.vp_horizontal_ntb);
         viewPager.setAdapter(new PagerAdapter() {
             @Override
             public int getCount() {
-                return 2;
+                return 3;
             }
 
             @Override
@@ -79,8 +135,23 @@ public class MainActivity extends Activity {
                             )
                     );
 
-                    recycleAdapter = new RecycleAdapter();
-                    recyclerView.setAdapter(recycleAdapter);
+                    medicineListAdapter = new MedicineListAdapter();
+                    recyclerView.setAdapter(medicineListAdapter);
+
+                    container.addView(view);
+                } else if(position == 2) {
+                    view = LayoutInflater.from(
+                            getBaseContext()).inflate(R.layout.output_vp, null, false);
+
+                    final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rv);
+                    recyclerView.setHasFixedSize(true);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(
+                                    getBaseContext(), LinearLayoutManager.VERTICAL, false
+                            )
+                    );
+
+                    outputListAdapter = new OutputListAdapter();
+                    recyclerView.setAdapter(outputListAdapter);
 
                     container.addView(view);
                 } else {
@@ -96,22 +167,72 @@ public class MainActivity extends Activity {
                         public void onClick(View view) {
                             Log.i("LBL", "editText1 onClick");
                             hideKeyboard();
-                            ArrayList<String> options1Items = new ArrayList<>();
-                            options1Items.add("123");
-                            options1Items.add("456");
-                            options1Items.add("789");
                             OptionsPickerView pvOptions = new OptionsPickerBuilder(currentCtx, new OnOptionsSelectListener() {
                                 @Override
                                 public void onOptionsSelect(int options1, int option2, int options3 ,View v) {
-                                    editText1.setText("" + options1);
+                                    MedicineDataSet mds = MedicineDataSet.getInstance();
+                                    editText1.setText(mds.getCategory().get(options1));
                                 }
                             })
                                     .setSubCalSize(30)
                                     .setTitleSize(30)
                                     .setContentTextSize(30)
                                     .build();
-                            pvOptions.setPicker(options1Items);
+                            MedicineDataSet mds = MedicineDataSet.getInstance();
+                            pvOptions.setPicker(mds.getCategory());
                             pvOptions.show();
+                        }
+                    });
+
+                    final EditText editText5 = (EditText) findViewById(R.id.et5);
+                    editText5.setInputType(InputType.TYPE_NULL);
+                    editText5.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Log.i("LBL", "editText5 onClick");
+                            hideKeyboard();
+                            TimePickerView tpv = new TimePickerBuilder(currentCtx, new OnTimeSelectListener() {
+                                @Override
+                                public void onTimeSelect(Date date, View v) {
+                                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                    editText5.setText(formatter.format(date));
+                                }
+                            }).setSubCalSize(30)
+                                    .setTitleSize(30)
+                                    .setContentTextSize(30)
+                                    .setType(new boolean[]{true, true, true, false, false, false})
+                                    .build();
+                            tpv.show();
+                        }
+                    });
+
+                    final Button button1 = (Button) findViewById(R.id.btn1);
+                    button1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if(!checkInput()) {
+                                return;
+                            }
+
+                            String category = ((EditText) findViewById(R.id.et1)).getText().toString();
+                            String name = ((EditText) findViewById(R.id.et2)).getText().toString();
+                            int count = 0;
+                            try {
+                                count = Integer.parseInt(((EditText) findViewById(R.id.et3)).getText().toString());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            String description = ((EditText) findViewById(R.id.et4)).getText().toString();
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            Date expDate = null;
+                            try {
+                                expDate = dateFormat.parse(((EditText) findViewById(R.id.et5)).getText().toString());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            MedicineDataSet mds = MedicineDataSet.getInstance();
+                            mds.add(name, category, count, expDate, description);
+                            medicineListAdapter.notifyDataSetChanged();
                         }
                     });
 
@@ -148,6 +269,15 @@ public class MainActivity extends Activity {
                         .badgeTitle("with")
                         .build()
         );
+        models.add(
+                new NavigationTabBar.Model.Builder(
+                        getResources().getDrawable(R.drawable.ic_outwarehouse, null),
+                        Color.parseColor("#73beff"))
+//                        .selectedIcon(getResources().getDrawable(R.drawable.ic_eighth))
+                        .title("出库")
+                        .badgeTitle("with")
+                        .build()
+        );
 
         navigationTabBar.setBackgroundColor(Color.parseColor("#f7fafd"));
         navigationTabBar.setBgColor(Color.parseColor("#FFFFFF"));
@@ -173,7 +303,7 @@ public class MainActivity extends Activity {
         });
     }
 
-    public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHolder> {
+    public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapter.ViewHolder> {
 
         @Override
         public ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
@@ -183,12 +313,50 @@ public class MainActivity extends Activity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
-            holder.txt.setText(String.format("Navigation Item #%d", position));
+            MedicineDataSet mds = MedicineDataSet.getInstance();
+            Medicine m = mds.getMedData().get(position);
+            holder.txt.setText(String.format("name:%s TotalCnt:%d", m.getName(), m.getTotalCnt()));
+            if(m.getExpCnt() > 0) {
+                holder.txt.setBackgroundColor(Color.parseColor("#dd5044"));
+            }
         }
 
         @Override
         public int getItemCount() {
-            return 1;
+            MedicineDataSet mds = MedicineDataSet.getInstance();
+            return mds.getMedData().size();
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+
+            public TextView txt;
+
+            public ViewHolder(final View itemView) {
+                super(itemView);
+                txt = (TextView) itemView.findViewById(R.id.txt_vp_item_list);
+            }
+        }
+    }
+
+    public class OutputListAdapter extends RecyclerView.Adapter<OutputListAdapter.ViewHolder> {
+
+        @Override
+        public ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+            final View view = LayoutInflater.from(getBaseContext()).inflate(R.layout.list_item, parent, false);
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
+            MedicineDataSet mds = MedicineDataSet.getInstance();
+            Medicine m = mds.getOutputData().get(position);
+            holder.txt.setText(String.format("name:%s TotalCnt:%d", m.getName(), m.getTotalCnt()));
+        }
+
+        @Override
+        public int getItemCount() {
+            MedicineDataSet mds = MedicineDataSet.getInstance();
+            return mds.getOutputData().size();
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
