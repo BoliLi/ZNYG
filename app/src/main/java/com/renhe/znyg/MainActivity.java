@@ -3,6 +3,7 @@ package com.renhe.znyg;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
@@ -12,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -44,6 +46,16 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initUI();
+    }
+
+    @Override
+    protected void onStart() {
+
+        super.onStart();
+        if(medicineListAdapter != null) {
+            medicineListAdapter.notifyDataSetChanged();
+        }
+
     }
 
     private void hideKeyboard() {
@@ -353,10 +365,22 @@ public class MainActivity extends Activity {
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             MedicineDataSet mds = MedicineDataSet.getInstance();
             Medicine m = mds.getMedData().get(position);
-            holder.txt.setText(String.format("name:%s TotalCnt:%d", m.getName(), m.getTotalCnt()));
+            holder.txt.setText(String.format("name:%s TotalCnt:%d expCnt:%d", m.getName(), m.getTotalCnt(), m.getExpCnt()));
+            Log.i("LBL", String.format("name:%s TotalCnt:%d expCnt:%d", m.getName(), m.getTotalCnt(), m.getExpCnt()));
             if(m.getExpCnt() > 0) {
                 holder.txt.setBackgroundColor(Color.parseColor("#CB4E3F"));
+            } else {
+                holder.txt.setBackgroundColor(Color.parseColor("#f0f0f0"));
             }
+
+            holder.txt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                    intent.putExtra("pos", position);
+                    startActivity(intent);
+                }
+            });
         }
 
         @Override
