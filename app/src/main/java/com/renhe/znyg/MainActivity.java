@@ -25,10 +25,13 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import devlight.io.library.ntb.NavigationTabBar;
 
@@ -152,8 +155,43 @@ public class MainActivity extends Activity {
 
                     outputListAdapter = new OutputListAdapter();
                     recyclerView.setAdapter(outputListAdapter);
-
                     container.addView(view);
+
+                    final FloatingActionMenu menuRed = (FloatingActionMenu) view.findViewById(R.id.menu_red);
+                    menuRed.setClosedOnTouchOutside(true);
+                    final FloatingActionButton fab1 = view.findViewById(R.id.fab1);
+                    fab1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            menuRed.close(true);
+                            MedicineDataSet mds = MedicineDataSet.getInstance();
+                            mds.buildOutputOption();
+                            OptionsPickerView opv = new OptionsPickerBuilder(currentCtx, new OnOptionsSelectListener() {
+                                @Override
+                                public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                                    MedicineDataSet mds = MedicineDataSet.getInstance();
+                                    List<List<String>> op2 = mds.getOutputOption2();
+                                    String name = op2.get(options1).get(options2);
+                                    mds.outputAdd(name, options3 + 1);
+                                    outputListAdapter.notifyDataSetChanged();
+                                }
+                            }).setSubCalSize(30)
+                                    .setTitleSize(30)
+                                    .setContentTextSize(30)
+                                    .build();
+
+                            opv.setPicker(mds.getCategory(), mds.getOutputOption2(), mds.getOutputOption3());
+                            opv.show();
+                        }
+                    });
+
+                    FloatingActionButton fab2 = view.findViewById(R.id.fab2);
+                    fab2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                        }
+                    });
                 } else {
                     view = LayoutInflater.from(
                             getBaseContext()).inflate(R.layout.input_vp, null, false);
@@ -317,7 +355,7 @@ public class MainActivity extends Activity {
             Medicine m = mds.getMedData().get(position);
             holder.txt.setText(String.format("name:%s TotalCnt:%d", m.getName(), m.getTotalCnt()));
             if(m.getExpCnt() > 0) {
-                holder.txt.setBackgroundColor(Color.parseColor("#dd5044"));
+                holder.txt.setBackgroundColor(Color.parseColor("#CB4E3F"));
             }
         }
 

@@ -16,6 +16,8 @@ public class MedicineDataSet {
     private List<Medicine> outputData;
     private List<String> category;
     private List<List<Medicine>> medTemp;
+    private List<List<String>> outputOption2;
+    private List<List<List<String>>> outputOption3;
     private static MedicineDataSet instance = new MedicineDataSet();
     private MedicineDataSet() {
         category = new ArrayList<>();
@@ -73,6 +75,22 @@ public class MedicineDataSet {
 
     public static MedicineDataSet getInstance() {
         return instance;
+    }
+
+    public List<List<String>> getOutputOption2() {
+        return outputOption2;
+    }
+
+    public void setOutputOption2(List<List<String>> outputOption2) {
+        this.outputOption2 = outputOption2;
+    }
+
+    public List<List<List<String>>> getOutputOption3() {
+        return outputOption3;
+    }
+
+    public void setOutputOption3(List<List<List<String>>> outputOption3) {
+        this.outputOption3 = outputOption3;
     }
 
     public List<Medicine> getOutputData() {
@@ -197,5 +215,28 @@ public class MedicineDataSet {
             sub(m.getName(), m.getTotalCnt());
         }
         outputData.clear();
+    }
+
+    public void buildOutputOption() {
+        outputOption2 = new ArrayList<>();
+        outputOption3 = new ArrayList<>();
+        for(int i = 0; i < category.size(); i++) {
+            outputOption2.add(new ArrayList<String>());
+            outputOption3.add(new ArrayList<List<String>>());
+            String cat = category.get(i);
+            for(int j = 0; j < medData.size(); j++) {
+                Medicine m = medData.get(j);
+                if(cat.equals(m.getCategory())) {
+                    List<String> op2 = outputOption2.get(i);
+                    op2.add(m.getName());
+                    List<List<String>> op3 = outputOption3.get(i);
+                    List<String> op3Op = new ArrayList<>();
+                    for(int k = 1; k <= m.getTotalCnt(); k++) {
+                        op3Op.add(String.valueOf(k));
+                    }
+                    op3.add(op3Op);
+                }
+            }
+        }
     }
 }
