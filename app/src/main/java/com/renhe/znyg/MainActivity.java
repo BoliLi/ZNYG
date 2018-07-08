@@ -115,6 +115,19 @@ public class MainActivity extends Activity {
         return true;
     }
 
+    private void clearInput() {
+        final EditText editText1 = (EditText) findViewById(R.id.et1);
+        editText1.setText("");
+        final EditText editText2 = (EditText) findViewById(R.id.et2);
+        editText2.setText("");
+        final EditText editText3 = (EditText) findViewById(R.id.et3);
+        editText3.setText("");
+        final EditText editText4 = (EditText) findViewById(R.id.et4);
+        editText4.setText("");
+        final EditText editText5 = (EditText) findViewById(R.id.et5);
+        editText5.setText("");
+    }
+
     private void initUI() {
         final Context currentCtx = this;
         final ViewPager viewPager = (ViewPager) findViewById(R.id.vp_horizontal_ntb);
@@ -201,7 +214,11 @@ public class MainActivity extends Activity {
                     fab2.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-
+                            menuRed.close(true);
+                            MedicineDataSet mds = MedicineDataSet.getInstance();
+                            mds.outputConfirm();
+                            outputListAdapter.notifyDataSetChanged();
+                            medicineListAdapter.notifyDataSetChanged();
                         }
                     });
                 } else {
@@ -283,6 +300,7 @@ public class MainActivity extends Activity {
                             MedicineDataSet mds = MedicineDataSet.getInstance();
                             mds.add(name, category, count, expDate, description);
                             medicineListAdapter.notifyDataSetChanged();
+                            clearInput();
                         }
                     });
 
@@ -330,7 +348,7 @@ public class MainActivity extends Activity {
         );
 
         navigationTabBar.setBackgroundColor(Color.parseColor("#f7fafd"));
-        navigationTabBar.setBgColor(Color.parseColor("#FFFFFF"));
+        navigationTabBar.setBgColor(Color.parseColor("#F0F0F0"));
         navigationTabBar.setTitleSize(16);
         navigationTabBar.setModels(models);
         navigationTabBar.setViewPager(viewPager, 0);
@@ -368,9 +386,9 @@ public class MainActivity extends Activity {
             holder.txt.setText(String.format("name:%s TotalCnt:%d expCnt:%d", m.getName(), m.getTotalCnt(), m.getExpCnt()));
             Log.i("LBL", String.format("name:%s TotalCnt:%d expCnt:%d", m.getName(), m.getTotalCnt(), m.getExpCnt()));
             if(m.getExpCnt() > 0) {
-                holder.txt.setBackgroundColor(Color.parseColor("#CB4E3F"));
+                holder.txt.setBackgroundResource(R.drawable.bg_round_rect_red);
             } else {
-                holder.txt.setBackgroundColor(Color.parseColor("#f0f0f0"));
+                holder.txt.setBackgroundResource(R.drawable.bg_round_rect);
             }
 
             holder.txt.setOnClickListener(new View.OnClickListener() {
